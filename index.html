@@ -51,7 +51,9 @@
         <div class="row">
             <div deckgrid class="deckgrid" source="filteredPhotos">
                 <div class="a-card" ng-mouseover="hoverPin = true" ng-mouseleave="hoverPin = false">
-                    <a ng-href="{{card.link}}" target="_blank"><img src="{{card.src}}"></a>
+                    <a ng-href="{{card.link}}" target="_blank">
+                        <img lazy-src="{{card.src}}" animate-visible="true" animate-speed="0.7s" />
+                    </a>
                     <h3>{{card.title}}</h3>
                     <div class="a-card-tags">
                         Tags: {{card.tags}}

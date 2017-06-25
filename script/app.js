@@ -6,20 +6,46 @@ app.controller("PhotoController", ['$http', '$scope', '$filter', function($http,
         .then(function(response){
             $scope.photos = response.data;
             $scope.filteredPhotos = $scope.photos;
+            $scope.pinFilter = 'all';
             $scope.searchTags = function(){
-                if ($scope.tagsFilter === ''){
-                    $scope.filteredPhotos = $scope.photos;
+                if ($scope.pinFilter === 'all'){
+                    if ($scope.tagsFilter === ''){
+                        $scope.filteredPhotos = $scope.photos;
+                    } else {
+                        $scope.filteredPhotos = $filter('filter')($scope.photos, {tags: $scope.tagsFilter});
+                    }
                 } else {
-                    $scope.filteredPhotos = $filter('filter')($scope.photos, {tags: $scope.tagsFilter});
-                    console.log($scope.filteredPhotos.length);
+                    if ($scope.tagsFilter === ''){
+                        $scope.filteredPhotos = $filter('filter')($scope.photos, {pinned: true});
+                    } else{
+                        $scope.filteredPhotos = $filter('filter')($scope.photos, {pinned: true, tags: $scope.tagsFilter});
+                    }
                 }
             };
             $scope.pin = function(index){
                 var currentPinStatus = $scope.photos[index].pinned;
+                console.log(index);
                 if (currentPinStatus == null){
                     $scope.photos[index].pinned = true;
                 } else {
                     $scope.photos[index].pinned = !currentPinStatus;
+                }
+            };
+
+            $scope.togglePinned = function (pinFilter) {
+                $scope.pinFilter = pinFilter; //to toggle button style class
+                if (pinFilter === 'all') {
+                    if ($scope.tagsFilter === '') {
+                        $scope.filteredPhotos = $scope.photos;
+                    } else {
+                        $scope.filteredPhotos = $filter('filter')($scope.photos, {tags: $scope.tagsFilter});
+                    }
+                } else if (pinFilter === 'pinned') {
+                    if ($scope.tagsFilter === '') {
+                        $scope.filteredPhotos = $filter('filter')($scope.photos, {pinned: true});
+                    } else {
+                        $scope.filteredPhotos = $filter('filter')($scope.photos, {pinned: true, tags: $scope.tagsFilter});
+                    }
                 }
             }
         });

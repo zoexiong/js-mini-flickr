@@ -24,10 +24,10 @@
                 </div>
                 <div class="col-xs-12 col-md-4">
                     <div class="btn-group pin-button-group">
-                        <label class="btn btn-default pin-button">
+                        <label ng-click="togglePinned('all')" ng-class="{'btn-danger': pinFilter === 'all'}" class="btn btn-default pin-button">
                             All
                         </label>
-                        <label class="btn btn-default pin-button">
+                        <label ng-click="togglePinned('pinned')" ng-class="{'btn-danger': pinFilter === 'pinned'}" class="btn btn-default pin-button">
                             Pinned
                         </label>
                     </div>
@@ -58,7 +58,7 @@
                     </div>
                     <div class="a-card-pin">
                         <!--example from the deckgrid library, <button data-ng-click="mother.doSomething()">Click me!</button>-->
-                        <img src="/image/pushpin-64.png" class="a-card-pin-icon" ng-show="hoverPin || card.pinned" ng-click="mother.pin(card.$index)">
+                        <img src="/image/pushpin-64.png" class="a-card-pin-icon" ng-show="hoverPin || card.pinned" ng-click="mother.pin(card.originalIndex)">
                     </div>
                 </div>
             </div>

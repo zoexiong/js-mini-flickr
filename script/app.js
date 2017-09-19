@@ -1,4 +1,4 @@
-var app = angular.module("miniFlickr", ['akoenig.deckgrid', 'me-lazyload']);
+var app = angular.module("miniFlickr", ['akoenig.deckgrid', 'me-lazyload', 'ngLodash']);
 
 var pageNum = 1;
 
@@ -8,8 +8,8 @@ app.directive("scroll", function ($window) {
             //get the first value that is not null (for compatibility)
             var scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
             //height of window + length already scrolled >= whole length of the page, use 50 as buffer
-            if ((window.innerHeight + scrollY) >= (document.body.offsetHeight - 50)) {
-                scope.loadMore();
+            if ((window.innerHeight + scrollY) >= (document.body.offsetHeight - 100)) {
+                scope.debounceLoadMore();
             }
             scope.$apply();
         });
@@ -18,7 +18,7 @@ app.directive("scroll", function ($window) {
 
 //var getMorePhotos = _.debounce(getRecentFlickrPhotos, 1000);
 
-app.controller("PhotoController", ['$http', '$scope', '$filter', function($http, $scope, $filter){
+app.controller("PhotoController", ['$http', '$scope', '$filter', 'lodash', function($http, $scope, $filter, lodash){
     //api/version/plural
     $http.get("/api/v1/photos")
         .then(function(response){
@@ -82,5 +82,6 @@ app.controller("PhotoController", ['$http', '$scope', '$filter', function($http,
                         $scope.filteredPhotos = $scope.filteredPhotos.concat(response.data);
                 })
             };
+            $scope.debounceLoadMore = lodash.debounce($scope.loadMore, 300);
         });
 }]);

@@ -4,6 +4,7 @@ app.controller("PhotoController", ['$http', '$scope', '$filter', function($http,
     //api/version/plural
     $http.get("/api/v1/photos")
         .then(function(response){
+            $scope.showGrid = true;
             $scope.photos = response.data;
             $scope.filteredPhotos = $scope.photos;
             $scope.pinFilter = 'all';
@@ -24,14 +25,12 @@ app.controller("PhotoController", ['$http', '$scope', '$filter', function($http,
             };
             $scope.pin = function(index){
                 var currentPinStatus = $scope.photos[index].pinned;
-                console.log(index);
                 if (currentPinStatus == null){
                     $scope.photos[index].pinned = true;
                 } else {
                     $scope.photos[index].pinned = !currentPinStatus;
                 }
             };
-
             $scope.togglePinned = function (pinFilter) {
                 $scope.pinFilter = pinFilter; //to toggle button style class
                 if (pinFilter === 'all') {
@@ -47,6 +46,11 @@ app.controller("PhotoController", ['$http', '$scope', '$filter', function($http,
                         $scope.filteredPhotos = $filter('filter')($scope.photos, {pinned: true, tags: $scope.tagsFilter});
                     }
                 }
+            };
+            $scope.$on('$destroy', destroy);
+            function destroy() {
+                $scope.filteredPhotos = [];
+                $scope.showGrid = false;
             }
         });
 }]);

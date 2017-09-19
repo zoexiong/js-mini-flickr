@@ -49,7 +49,7 @@
         </div>
 
         <div class="row">
-            <div deckgrid class="deckgrid" source="filteredPhotos">
+            <div deckgrid class="deckgrid" source="filteredPhotos" ng-if="showGrid">
                 <div class="a-card" ng-mouseover="hoverPin = true" ng-mouseleave="hoverPin = false">
                     <a ng-href="{{card.link}}" target="_blank">
                         <img lazy-src="{{card.src}}" animate-visible="true" animate-speed="0.7s" />

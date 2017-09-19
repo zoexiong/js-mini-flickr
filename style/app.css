@@ -71,12 +71,12 @@ img {
     opacity: 1;
 }
 
-.deckgrid{
-    padding: 10px 0 10px 10px;
-}
-
 .deckgrid .column {
     float: left;
+}
+
+.deckgrid{
+    padding: 10px 0 10px 10px;
 }
 
 .deckgrid .column-1-1 {
@@ -96,26 +96,34 @@ img {
 }
 
 .deckgrid[deckgrid]::before {
+    /* Specifies that the grid should have a maximum of 4 columns. Each column will have the classes 'column' and 'column-1-4' */
     content: '4 .column.column-1-4';
-    font-size: 0;
+    font-size: 0; /* See https://github.com/akoenig/angular-deckgrid/issues/14#issuecomment-35728861 */
     visibility: hidden;
 }
 
+
 @media screen and (max-width: 960px) {
     .deckgrid[deckgrid]::before {
+        /* Specifies that the grid should have a maximum of 4 columns. Each column will have the classes 'column' and 'column-1-4' */
         content: '3 .column.column-1-3';
+        font-size: 0; /* See https://github.com/akoenig/angular-deckgrid/issues/14#issuecomment-35728861 */
     }
 }
 
 @media screen and (max-width: 720px) {
     .deckgrid[deckgrid]::before {
+        /* Specifies that the grid should have a maximum of 4 columns. Each column will have the classes 'column' and 'column-1-4' */
         content: '2 .column.column-1-2';
+        font-size: 0; /* See https://github.com/akoenig/angular-deckgrid/issues/14#issuecomment-35728861 */
     }
 }
 
 @media screen and (max-width: 480px) {
     .deckgrid[deckgrid]::before {
+        /* Specifies that the grid should have a maximum of 4 columns. Each column will have the classes 'column' and 'column-1-4' */
         content: '1 .column.column-1-1';
+        font-size: 0; /* See https://github.com/akoenig/angular-deckgrid/issues/14#issuecomment-35728861 */
     }
     .pin-button-group{
         float: left;

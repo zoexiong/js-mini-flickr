@@ -5,7 +5,8 @@ var flickrOptions = {
 };
 
 var recentPhotos = [];
-var photoCount = 100;
+//var photos = [];
+var photoCount = 1000;
 var searchTag = 'dog';
 
 function getRecentFlickrPhotos(callback) {
@@ -16,6 +17,7 @@ function getRecentFlickrPhotos(callback) {
                 return;
             }
             var photos = result.photos.photo;
+            console.log(photos.length);
             var i = 0;
             photos.forEach(function (photo) {
                 var title = photo.title;

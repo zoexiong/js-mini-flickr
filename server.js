@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 
 var flickrService = require('./services/flickrService');
-flickrService.getPhotosByPageNum(1, function () {
+flickrService.getTwentyPagePhotos(function () {
         var restRouter = require('./routes/rest');
 
         app.use('/', express.static(__dirname + '/'));

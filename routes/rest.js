@@ -10,7 +10,7 @@ router.get('/photos', function (req, res) {
         req.socket.remoteAddress;
     console.log("Got a client request from " + ip);
     //var photos = flickrService.recentPhotos;
-    flickrService.getPhotosByPageNum(1, function(photos){
+    flickrService.getPhotosByPageNum(1, function(pageNum, photos){
         photosArray = photos;
         console.log('/photos api returned: ' + photosArray.length);
         res.json(photosArray);
@@ -23,7 +23,7 @@ router.get('/morePhotos', function(req, res) {
         req.socket.remoteAddress;
     var pageNum = parseInt(req.query.pageNum);
     console.log("Got a client request from " + ip);
-    flickrService.getPhotosByPageNum(pageNum, function(photos){
+    flickrService.getPhotosByPageNum(pageNum, function(pageNum, photos){
         photosArray = photos;
         console.log('/morePhotos api returned: ' + photosArray.length);
         res.json(photosArray);

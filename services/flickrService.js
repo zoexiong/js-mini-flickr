@@ -5,42 +5,81 @@ var flickrOptions = {
 };
 
 //var recentPhotos = [];
-var newPhotos = [];
 var photoCount = 100;
 var searchTag = 'dog';
 
+
+var initialPhotos = {};
+
 function getPhotosByPageNum(pageNum, callback){
-    newPhotos = [];
-    flickrApi.tokenOnly(flickrOptions, function (err, flickr) {
-        flickr.photos.search({tags: searchTag, page: pageNum, per_page: photoCount}, function (err, result) {
-            if (err) {
-                console.log(err);
-                return;
-            }
-            var photos = result.photos.photo;
-            var i = 0;
-            photos.forEach(function (photo) {
 
-                var title = photo.title;
-                var link = composePhotoUrl(photo.owner, photo.id);
-                var src = composePhotoSrc(photo);
+    if (pageNum <= 20 && initialPhotos['page' + pageNum.toString()]){
+        console.log('return cached photos: page ' + pageNum);
+        callback(pageNum, initialPhotos['page' + pageNum.toString()]);;
+    } else {
+        var newPhotos = [];
+        flickrApi.tokenOnly(flickrOptions, function (err, flickr) {
+            flickr.photos.search({tags: searchTag, page: pageNum, per_page: photoCount}, function (err, result) {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+                var photos = result.photos.photo;
 
-                populateTags(flickr, photo.id, function (tags) {
-                    newPhotos.push({
-                        title: title,
-                        link: link,
-                        src: src,
-                        tags: tags,
-                        originalIndex: i++
+                console.log('flickr returned ' + photos.length + ' photos');
+
+                var i = 0;
+                photos.forEach(function (photo) {
+
+                    var title = photo.title;
+                    var link = composePhotoUrl(photo.owner, photo.id);
+                    var src = composePhotoSrc(photo);
+
+                    populateTags(flickr, photo.id, function (tags) {
+
+                        newPhotos.push({
+                            title: title,
+                            link: link,
+                            src: src,
+                            tags: tags,
+                            originalIndex: i++
+                        });
+
+
+                        if (newPhotos.length == photoCount) {
+
+                            console.log(newPhotos[1].src);
+
+                            callback(pageNum, newPhotos);
+                            newPhotos = [];
+                        }
                     });
-                    if (newPhotos.length == 100) {
-                        console.log(newPhotos.length + ' page: ' + pageNum);
-                        callback(newPhotos);
-                    }
                 });
             });
         });
-    });
+    }
+}
+
+
+
+function doSetTimeout(i) {
+    setTimeout(function(){
+        getPhotosByPageNum(i, function(pageNum, newPhotos){
+            initialPhotos['page' + pageNum.toString()] = newPhotos;
+            //console.log(pageNum + ' ' + newPhotos[1].src);
+            console.log('Cache stored for page ' + pageNum)
+        })
+    }, i*500);
+}
+
+function getTwentyPagePhotos(callback){
+    initialPhotos = {};
+    for(var i=1; i <= 20; i++){
+        doSetTimeout(i);
+        if (i === 20){
+            callback();
+        }
+    }
 }
 
 function composePhotoUrl(userId, photoId) {
@@ -55,6 +94,12 @@ function composePhotoSrc(photo) {
 
 function populateTags(flickr, photoId, callback) {
     flickr.photos.getInfo({photo_id: photoId}, function (err, result) {
+        if (err) {
+            console.log(err);
+            callback([]);
+            return;
+        }
+
         var rawTags = [];
         result.photo.tags.tag.forEach(function (tag) {
             rawTags.push(tag.raw);
@@ -65,8 +110,7 @@ function populateTags(flickr, photoId, callback) {
 }
 
 module.exports = {
-    //getRecentFlickrPhotos: getRecentFlickrPhotos,
-    getPhotosByPageNum: getPhotosByPageNum,
-    //newPhotos: newPhotos
+    getTwentyPagePhotos: getTwentyPagePhotos,
+    getPhotosByPageNum: getPhotosByPageNum
 };
 

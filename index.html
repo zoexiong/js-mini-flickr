@@ -16,7 +16,7 @@
 </head>
 
 <body ng-app="miniFlickr" ng-controller="PhotoController">
-    <div class="container">
+    <div class="container" id="container">
         <div class="page-header">
             <div class="row">
                 <div class="col-xs-12 col-md-8">
@@ -55,7 +55,7 @@
                     <a ng-href="{{card.link}}" target="_blank">
                         <img lazy-src="{{card.src}}" animate-visible="true" animate-speed="0.7s" />
                     </a>
-                    <h3>{{card.title}}</h3>
+                    <!--<h5>{{card.title}}</h5>-->
                     <div class="a-card-tags">
                         Tags: {{card.tags}}
                     </div>

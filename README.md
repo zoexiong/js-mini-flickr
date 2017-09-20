@@ -1,17 +1,20 @@
 # js-mini-flickr
 
-This is a mini flickr gallery that shows pictures from flickr.com that with tag #dog.
+This is a mini flickr gallery that shows pictures from flickr.com that with tag #pancake_the_cat (pancake is the cat I adopted two years ago).
 
-Tag filter and pin function are provided to help users find desired pictures and pin pictures to mark them as favorite.
+Infinity scroll and preload is enabled to improve the user experience.
+I also provided tag filter and pin function to help users find desired pictures and pin pictures to mark them as favorite.
 
 ### Live demo
-* [**Flickr Dog Gallery**](http://34.213.61.66:3000/) (hosted on AWS)
+* [**Pancake and His Friends Gallery**](http://34.213.61.66:3000/) (hosted on AWS)
 
 ### How to install this project
 
 Apply for a Flickr api key at https://www.flickr.com/services/api/misc.api_keys.html
 
 Put your Flickr api key in `service/flickrService.js`
+
+Replace the #tag to your favorite one
 
 #### Run following command in your terminal:
 
@@ -27,6 +30,4 @@ Put your Flickr api key in `service/flickrService.js`
 
 Now you should be able to access the project by going to [http://localhost:3000](http://localhost:3000) in your browser.
 
-
-(This is a course project based on:
-https://github.com/zhewangjoe/mini-flickr)
+(I used some sample code from https://github.com/zhewangjoe/mini-flickr)

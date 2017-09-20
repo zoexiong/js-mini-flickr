@@ -1,7 +1,7 @@
 var flickrApi = require('flickrapi');
 var flickrOptions = {
     //put your flickr api key here
-    api_key: ""
+    api_key: "79b7f2f3b483fc1b0cf57fb08be0211c"
 };
 
 var photoCount = 90;

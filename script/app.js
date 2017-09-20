@@ -1,3 +1,5 @@
+//Todo: add preload
+
 var app = angular.module("miniFlickr", ['akoenig.deckgrid', 'me-lazyload', 'ngLodash']);
 
 var pageNum = 1;
@@ -8,7 +10,7 @@ app.directive("scroll", function ($window) {
             //get the first value that is not null (for compatibility)
             var scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
             //height of window + length already scrolled >= whole length of the page, use 50 as buffer
-            if ((window.innerHeight + scrollY) >= (document.body.offsetHeight - 100)) {
+            if ((window.innerHeight + scrollY) >= (document.body.offsetHeight - 200)) {
                 scope.debounceLoadMore();
             }
             scope.$apply();
@@ -70,18 +72,23 @@ app.controller("PhotoController", ['$http', '$scope', '$filter', 'lodash', funct
                 $scope.filteredPhotos = [];
                 $scope.showGrid = false;
             }
-            $scope.loadMore = function (scope){
-                console.log('Scrolled to the end, try to load more');
+            $scope.loadMore = function (scope, callback){
                 pageNum = pageNum + 1;
-                $http.get("/api/v1/morePhotos",{
-                    params: { pageNum: pageNum }
-                })
-                    .then(function(response) {
-                        $scope.pinFilter = 'all';
-                        $scope.tagsFilter = '';
-                        $scope.filteredPhotos = $scope.filteredPhotos.concat(response.data);
-                })
+                if (pageNum <= 5){
+                    $http.get("/api/v1/morePhotos",{
+                        params: { pageNum: pageNum }
+                    })
+                        .then(function(response) {
+                            $scope.pinFilter = 'all';
+                            $scope.tagsFilter = '';
+                            $scope.filteredPhotos = $scope.filteredPhotos.concat(response.data);
+                            //scroll back to previous positions
+                            var currentY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+                            window.scroll(0, currentY - 6500);
+
+                        })
+                }
             };
-            $scope.debounceLoadMore = lodash.debounce($scope.loadMore, 300);
+            $scope.debounceLoadMore = lodash.debounce($scope.loadMore, 1000);
         });
 }]);

@@ -1,13 +1,11 @@
 var flickrApi = require('flickrapi');
 var flickrOptions = {
     //put your flickr api key here
-    api_key: "79b7f2f3b483fc1b0cf57fb08be0211c"
+    api_key: ""
 };
 
-//var recentPhotos = [];
-var photoCount = 100;
-var searchTag = 'dog';
-
+var photoCount = 90;
+var searchTag = 'pancake_the_cat';
 
 var initialPhotos = {};
 
@@ -15,7 +13,7 @@ function getPhotosByPageNum(pageNum, callback){
 
     if (pageNum <= 20 && initialPhotos['page' + pageNum.toString()]){
         console.log('return cached photos: page ' + pageNum);
-        callback(pageNum, initialPhotos['page' + pageNum.toString()]);;
+        callback(pageNum, initialPhotos['page' + pageNum.toString()]);
     } else {
         var newPhotos = [];
         flickrApi.tokenOnly(flickrOptions, function (err, flickr) {
@@ -45,11 +43,7 @@ function getPhotosByPageNum(pageNum, callback){
                             originalIndex: i++
                         });
 
-
-                        if (newPhotos.length == photoCount) {
-
-                            console.log(newPhotos[1].src);
-
+                        if (newPhotos.length == photos.length) {
                             callback(pageNum, newPhotos);
                             newPhotos = [];
                         }
@@ -74,9 +68,10 @@ function doSetTimeout(i) {
 
 function getTwentyPagePhotos(callback){
     initialPhotos = {};
-    for(var i=1; i <= 20; i++){
+    var pages = 5;
+    for(var i=1; i <= pages; i++){
         doSetTimeout(i);
-        if (i === 20){
+        if (i === pages){
             callback();
         }
     }

@@ -5,7 +5,7 @@ This is a mini flickr gallery that shows pictures from flickr.com that with tag 
 Infinite scroll and preload is enabled to improve user experience. I also provided tag filter and pin function to help users find desired pictures and pin pictures to mark them as favorite.
 
 ### Live demo
-* [**Pancake and His Friends Gallery**](http://34.213.61.66:3000/) (hosted on AWS)
+* [**Pancake and His Friends Gallery**](http://34.208.219.214:3000/) (hosted on AWS)
 
 ### How to install this project
 
